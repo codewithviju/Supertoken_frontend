@@ -17,7 +17,6 @@ import SuperTokens, {
 } from "supertokens-auth-react";
 
 import Home from "./Home";
-import Private from "./Private";
 
 SuperTokens.init({
   appInfo: {
@@ -49,14 +48,6 @@ function App() {
             element={
               <ThirdPartyEmailPasswordAuth>
                 <Home />
-              </ThirdPartyEmailPasswordAuth>
-            }
-          />
-          <Route
-            path="/private"
-            element={
-              <ThirdPartyEmailPasswordAuth>
-                <Private />
               </ThirdPartyEmailPasswordAuth>
             }
           />
