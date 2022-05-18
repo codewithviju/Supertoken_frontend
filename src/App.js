@@ -1,23 +1,67 @@
-import logo from './logo.svg';
-import './App.css';
+//my-demo-app/src/App.js
+
+import ThirdPartyEmailPassword, {
+  Google,
+  ThirdPartyEmailPasswordAuth,
+} from "supertokens-auth-react/recipe/thirdpartyemailpassword";
+import Session from "supertokens-auth-react/recipe/session";
+
+// import react-router-dom components
+
+import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
+
+// import SuperTokens Auth routes
+
+import SuperTokens, {
+  getSuperTokensRoutesForReactRouterDom,
+} from "supertokens-auth-react";
+
+import Home from "./Home";
+import Private from "./Private";
+
+SuperTokens.init({
+  appInfo: {
+    appName: "Demo",
+    apiDomain:
+      "https://b27c-106-222-64-170.in.ngrok.io" || "http://localhost:3001",
+    websiteDomain:
+      "https://0158-106-222-64-170.in.ngrok.io" || "http://localhost:3000",
+  },
+  recipeList: [
+    ThirdPartyEmailPassword.init({
+      signInAndUpFeature: {
+        providers: [Google.init()],
+      },
+    }),
+    Session.init(),
+  ],
+});
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          {/*This renders the login UI on the /auth route*/}
+          {getSuperTokensRoutesForReactRouterDom(require("react-router-dom"))}
+          <Route
+            path="/"
+            element={
+              <ThirdPartyEmailPasswordAuth>
+                <Home />
+              </ThirdPartyEmailPasswordAuth>
+            }
+          />
+          <Route
+            path="/private"
+            element={
+              <ThirdPartyEmailPasswordAuth>
+                <Private />
+              </ThirdPartyEmailPasswordAuth>
+            }
+          />
+        </Routes>
+      </Router>
     </div>
   );
 }
